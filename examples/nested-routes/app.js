@@ -38,6 +38,16 @@ const Quy = {
 }
 const Quux = { template: '<div>quux</div>' }
 const Zap = { template: '<div><h3>zap</h3><pre>{{ $route.params.zapId }}</pre></div>' }
+const Zum = {
+  template: `
+    <div>
+      <h3>zum</h3>
+      <pre>{{ $route.params }}</pre>
+      <router-link :to="{ name: 'show' }">foo</router-link>
+      <router-view />
+    </div>
+  `
+}
 
 const router = new VueRouter({
   mode: 'history',
@@ -70,7 +80,20 @@ const router = new VueRouter({
 
         { path: 'quy/:quyId', component: Quy },
 
-        { name: 'zap', path: 'zap/:zapId?', component: Zap }
+        { name: 'zap', path: 'zap/:zapId?', component: Zap },
+
+        {
+          name: 'zum',
+          path: 'zum/:a/:b?/:c',
+          component: Zum,
+          children: [
+            {
+              name: 'show',
+              path: 'show',
+              component: Foo
+            }
+          ]
+        }
       ]
     }
   ]
@@ -91,6 +114,7 @@ new Vue({
         <li><router-link :to="{name: 'zap'}">/parent/zap</router-link></li>
         <li><router-link :to="{name: 'zap', params: {zapId: 1}}">/parent/zap/1</router-link></li>
         <li><router-link :to="{ params: { zapId: 2 }}">{ params: { zapId: 2 }} (relative params)</router-link></li>
+        <li><router-link to="/parent/zum/a/b/c">/parent/zum/a/b/c</router-link></li>
       </ul>
       <router-view class="view"></router-view>
     </div>

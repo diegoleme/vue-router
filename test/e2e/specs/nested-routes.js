@@ -3,7 +3,7 @@ module.exports = {
     browser
     .url('http://localhost:8080/nested-routes/')
       .waitForElementVisible('#app', 1000)
-      .assert.count('li a', 9)
+      .assert.count('li a', 10)
       .assert.urlEquals('http://localhost:8080/nested-routes/parent')
       .assert.containsText('.view', 'Parent')
       .assert.containsText('.view', 'default')
@@ -69,6 +69,14 @@ module.exports = {
         var zapId = document.querySelector('pre').textContent
         return (zapId === '2')
       }, null, 'relative params')
+
+      // test optional parameters
+      .click('li:nth-child(10) a')
+      .click('.parent .child a')
+      .assert.evaluate(function () {
+        var params = JSON.parse(document.querySelector('pre').textContent)
+        return (!!params.b)
+      }, null, 'optional parameters')
 
     // check initial visit
     .url('http://localhost:8080/nested-routes/parent/foo')

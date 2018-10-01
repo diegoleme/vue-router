@@ -40,6 +40,7 @@ new Vue({
   router,
   template: `
     <div id="app">
+      <h1>Nested Router</h1>
       <p>Root router path: {{ $route.fullPath }}</p>
       <ul>
         <li><router-link to="/nested-router">/nested-router</router-link></li>
